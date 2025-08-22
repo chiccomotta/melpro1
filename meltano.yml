@@ -35,9 +35,10 @@ plugins:
         host: localhost
         port: 5432
         user: postgres
-        password: postgres
+        password: ${POSTGRES_PASSWORD}  # Utilizza la variabile di ambiente
         database: targetdb
         default_target_schema: public        
+        batch_size_rows: 10000          # Numero di righe per batch
         stream_maps:
           "dbo-VwCustomers":
             __alias__: customers_staging
