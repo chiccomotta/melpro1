@@ -36,17 +36,7 @@ plugins:
         user: postgres
         password: postgres
         database: targetdb
-        schema: public
-      hooks:
-        pre-load:
-          - name: truncate-table
-            executable: psql
-            args:
-              - -h
-              - localhost
-              - -U
-              - postgres
-              - -d
-              - targetdb
-              - -c
-              - 'DROP TABLE IF EXISTS "ap_mssql"."Customers";'
+        default_target_schema: public        
+        stream_maps:
+          "dbo-Customers":
+            __alias__: customers_staging
