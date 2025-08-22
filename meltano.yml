@@ -15,8 +15,9 @@ plugins:
       port: 1433
       user: sa
       database: testdb
+      include_views: true
     select:
-    - dbo-Customers.*
+    - dbo-VwCustomers.*
   - name: tap-csv
     variant: meltanolabs
     pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
@@ -38,5 +39,5 @@ plugins:
         database: targetdb
         default_target_schema: public        
         stream_maps:
-          "dbo-Customers":
+          "dbo-VwCustomers":
             __alias__: customers_staging
