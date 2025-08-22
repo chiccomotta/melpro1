@@ -1,0 +1,52 @@
+version: 1
+default_environment: dev
+project_id: 0198cc50-8b2f-76cc-bfad-9d05541cccf1
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-mssql
+    variant: buzzcutnorman
+    pip_url: git+https://github.com/BuzzCutNorman/tap-mssql.git
+    config:
+      host: localhost
+      port: 1433
+      user: sa
+      database: testdb
+    select:
+    - dbo-Customers.*
+  - name: tap-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+    config:
+      files:
+      - entity: test_table              # Nome logico della tabella
+        path: ./data.csv                # Percorso del file CSV
+        keys: [id]                      # Chiave primaria (se esiste)
+        delimiter: ','                  # Separatore ("," ";" "\t")
+  loaders:
+    - name: target-postgres
+      variant: meltanolabs
+      pip_url: meltanolabs-target-postgres
+      config:
+        host: localhost
+        port: 5432
+        user: postgres
+        password: postgres
+        database: targetdb
+        schema: public
+      hooks:
+        pre-load:
+          - name: truncate-table
+            executable: psql
+            args:
+              - -h
+              - localhost
+              - -U
+              - postgres
+              - -d
+              - targetdb
+              - -c
+              - 'DROP TABLE IF EXISTS "ap_mssql"."Customers";'

@@ -1,0 +1,9 @@
+{
+  "host": "localhost",
+  "port": 1433,
+  "user": "sa",
+  "password": "chicco",
+  "database": "testdb",
+  "schema": "dbo",
+  "tables": ["Customers"]
+}
