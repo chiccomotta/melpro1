@@ -37,7 +37,7 @@ plugins:
         user: postgres
         password: ${POSTGRES_PASSWORD}  # Utilizza la variabile di ambiente
         database: targetdb
-        default_target_schema: public        
+        default_target_schema: public  
         batch_size_rows: 10000          # Numero di righe per batch
         stream_maps:
           "dbo-VwCustomers":

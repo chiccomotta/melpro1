@@ -4,13 +4,13 @@ set PGPASSWORD=postgres
 set TABLE_NAME=customers_staging
 set COPY_TABLE_NAME=CustomersCopy
 
-REM Execute the SQL command to drop the table
-echo Dropping table "%TABLE_NAME%"...
-psql -h localhost -U postgres -d targetdb -c "DROP TABLE IF EXISTS public.\"%TABLE_NAME%\";"
-if %ERRORLEVEL% NEQ 0 (
-    echo Error while executing the SQL command to drop the table. Terminating the script.
-    exit /b 1
-)
+@REM REM Execute the SQL command to drop the table
+@REM echo Dropping table "%TABLE_NAME%"...
+@REM psql -h localhost -U postgres -d targetdb -c "DROP TABLE IF EXISTS public.\"%TABLE_NAME%\";"
+@REM if %ERRORLEVEL% NEQ 0 (
+@REM     echo Error while executing the SQL command to drop the table. Terminating the script.
+@REM     exit /b 1
+@REM )
 
 REM Execute the Meltano pipeline
 echo Running the Meltano pipeline...
