@@ -42,7 +42,6 @@
   * `host`: `${POSTGRES_HOST}`
   * `port`: `${POSTGRES_PORT}`
   * `user`: `${POSTGRES_USER}`
-  * `password`: `${POSTGRES_PASSWORD}`
   * `database`: `${POSTGRES_DB}`
   * `default_target_schema`: `public`
   * `batch_size_rows`: 10000
@@ -66,19 +65,19 @@
 
 ## Workflow Logico
 
-1. **Estrattori**:
+1. **Extractor**:
 
-   * `tap-mssql` estrae le viste da SQL Server (`dbo-VwCustomers`) e altre entità configurate.
+   * `tap-mssql` estrae le viste da SQL Server (`dbo-VwCustomers`).
 
 2. **Loader**:
 
    * `target-postgres` carica i dati estratti in PostgreSQL.
-   * `stream_maps` permette di rinominare i flussi: ad esempio `dbo-VwCustomers` viene caricato come `customers_staging`.
+   * `stream_maps` rinomina il flusso `dbo-VwCustomers` in `customers_staging`.
 
 3. **Utility `switch_table`**:
 
    * Esegue lo script Python `switch_table.py` tramite il comando `run_script`.
-   * Lo script si occupa di gestire eventuali swap di tabelle (ad esempio rinominare `customers_staging` in `customers` in modo sicuro).
+   * Lo script gestisce eventuali swap di tabelle (ad esempio rinominare `customers_staging` in `customers` in modo sicuro).
 
 ## Note
 
@@ -86,6 +85,7 @@
 * Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
 * Lanciare con il comando: `meltano run tap-mssql target-postgres switch_table:run_script`
+
 ---
 
 *Generato automaticamente dalla configurazione `meltano.yml`.*
