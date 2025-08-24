@@ -11,10 +11,10 @@ plugins:
     variant: buzzcutnorman
     pip_url: git+https://github.com/BuzzCutNorman/tap-mssql.git
     config:
-      host: localhost
-      port: 1433
-      user: sa
-      database: testdb
+      host: ${MSSQL_HOST}
+      port: ${MSSQL_PORT}
+      user: ${MSSQL_USER}
+      database: ${MSSQL_DB}
       include_views: true
     select:
     - dbo-VwCustomers.*
@@ -32,13 +32,20 @@ plugins:
       variant: meltanolabs
       pip_url: meltanolabs-target-postgres
       config:
-        host: localhost
-        port: 5432
-        user: postgres
-        password: ${POSTGRES_PASSWORD}  # Utilizza la variabile di ambiente
-        database: targetdb
+        host: ${POSTGRES_HOST}
+        port: ${POSTGRES_PORT}
+        user: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+        database: ${POSTGRES_DB}
         default_target_schema: public  
         batch_size_rows: 10000          # Numero di righe per batch
         stream_maps:
           "dbo-VwCustomers":
             __alias__: customers_staging
+  utilities:
+  - name: switch_table
+    namespace: pg_utilities
+    commands:
+      run_script:
+        executable: python
+        args: switch_table.py
