@@ -17,7 +17,7 @@ plugins:
       database: ${MSSQL_DB}
       include_views: true
     select:
-    - dbo-VwCustomers.*                 # Inserire il nome della Tabella o della Vista da estrarre
+    - dbo-VwCustomers.*                       # Inserire il nome della Tabella o della Vista da estrarre
   loaders:
     - name: target-postgres
       variant: meltanolabs
@@ -31,7 +31,7 @@ plugins:
         batch_size_rows: 30000          
         stream_maps:
           "dbo-VwCustomers":
-            __alias__: customers_staging    # Mappa la vista (o tabella) alla tabella customers_staging
+            __alias__: customers_staging      # Mappa la vista (o tabella) alla tabella customers_staging
   utilities:
     - name: switch_table
       namespace: pg_utilities
