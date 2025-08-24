@@ -1,32 +1,91 @@
-# melpro1
+# Documentazione Progetto Meltano
 
-A Meltano project for ELT (Extract, Load, Transform) pipelines.
+## Informazioni Generali
 
-## Project Structure
+* **Versione progetto**: 1
+* **Ambiente predefinito**: dev
+* **Project ID**: 0198cc50-8b2f-76cc-bfad-9d05541cccf1
 
-- `README.md` — Project documentation
-- `meltano.yml` — Meltano project configuration
-- `extractors/` — Data extraction plugins
-- `loaders/` — Data loading plugins
-- `transformers/` — Data transformation plugins
+## Ambienti Configurati
 
-## Getting Started
+* **dev**
+* **staging**
+* **prod**
 
-1. **Install Meltano**  
-    ```sh
-    pip install meltano
-    ```
+## Plugin Configurati
 
-2. **Initialize the project**  
-    ```sh
-    meltano install
-    ```
+### Extractors
 
-3. **Run a pipeline**  
-    Set passwords and database configurations 
+#### tap-mssql
 
+* **Variant**: buzzcutnorman
+* **Installazione**: `git+https://github.com/BuzzCutNorman/tap-mssql.git`
+* **Configurazione**:
 
-3. **Run a pipeline**  
-    ``` 
-      .\run_pipeline.bat
-    ```
+  * `host`: `${MSSQL_HOST}`
+  * `port`: `${MSSQL_PORT}`
+  * `user`: `${MSSQL_USER}`
+  * `database`: `${MSSQL_DB}`
+  * `include_views`: true
+* **Selezione dati**:
+
+  * `dbo-VwCustomers.*`
+
+### Loaders
+
+#### target-postgres
+
+* **Variant**: meltanolabs
+* **Installazione**: `meltanolabs-target-postgres`
+* **Configurazione**:
+
+  * `host`: `${POSTGRES_HOST}`
+  * `port`: `${POSTGRES_PORT}`
+  * `user`: `${POSTGRES_USER}`
+  * `password`: `${POSTGRES_PASSWORD}`
+  * `database`: `${POSTGRES_DB}`
+  * `default_target_schema`: `public`
+  * `batch_size_rows`: 10000
+  * `stream_maps`:
+
+    * `dbo-VwCustomers`:
+
+      * `__alias__`: `customers_staging`
+
+### Utilities
+
+#### switch\_table
+
+* **Namespace**: `pg_utilities`
+* **Comandi disponibili**:
+
+  * `run_script`
+
+    * **Eseguibile**: python
+    * **Argomenti**: `switch_table.py`
+
+## Workflow Logico
+
+1. **Estrattori**:
+
+   * `tap-mssql` estrae le viste da SQL Server (`dbo-VwCustomers`) e altre entità configurate.
+
+2. **Loader**:
+
+   * `target-postgres` carica i dati estratti in PostgreSQL.
+   * `stream_maps` permette di rinominare i flussi: ad esempio `dbo-VwCustomers` viene caricato come `customers_staging`.
+
+3. **Utility `switch_table`**:
+
+   * Esegue lo script Python `switch_table.py` tramite il comando `run_script`.
+   * Lo script si occupa di gestire eventuali swap di tabelle (ad esempio rinominare `customers_staging` in `customers` in modo sicuro).
+
+## Note
+
+* Tutte le credenziali e configurazioni sensibili sono gestite tramite variabili di ambiente (`MSSQL_*` e `POSTGRES_*`).
+* Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
+* Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
+
+---
+
+*Generato automaticamente dalla configurazione `meltano.yml`.*

@@ -18,15 +18,6 @@ plugins:
       include_views: true
     select:
     - dbo-VwCustomers.*
-  - name: tap-csv
-    variant: meltanolabs
-    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
-    config:
-      files:
-      - entity: test_table              # Nome logico della tabella
-        path: ./data.csv                # Percorso del file CSV
-        keys: [id]                      # Chiave primaria (se esiste)
-        delimiter: ','                  # Separatore ("," ";" "\t")
   loaders:
     - name: target-postgres
       variant: meltanolabs
