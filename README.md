@@ -85,7 +85,7 @@
 * Tutte le credenziali e configurazioni sensibili sono gestite tramite variabili di ambiente (`MSSQL_*` e `POSTGRES_*`).
 * Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
-
+* Lanciare con il comando: `meltano run tap-mssql target-postgres switch_table:run_script`
 ---
 
 *Generato automaticamente dalla configurazione `meltano.yml`.*
