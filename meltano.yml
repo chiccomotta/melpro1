@@ -18,6 +18,7 @@ plugins:
       include_views: true      
       catalog: {}                         # Forza rediscovery ogni volta
       discover_mode: always               # Rediscovery ad ogni esecuzione
+      refresh_schema: true                # Aggiorna lo schema ad ogni esecuzione 
     select:
     - dbo-VwCust.*                        # Inserire il nome della Tabella o della Vista da estrarre
   loaders:
