@@ -17,7 +17,7 @@ plugins:
       database: ${MSSQL_DB}
       include_views: true
     select:
-    - dbo-VwCustomers.*
+    - dbo-VwCustomers.*                 # Inserire il nome della Tabella o della Vista da estrarre
   loaders:
     - name: target-postgres
       variant: meltanolabs
@@ -28,14 +28,14 @@ plugins:
         user: ${POSTGRES_USER}
         database: ${POSTGRES_DB}
         default_target_schema: public  
-        batch_size_rows: 10000          # Numero di righe per batch
+        batch_size_rows: 30000          
         stream_maps:
           "dbo-VwCustomers":
-            __alias__: customers_staging
+            __alias__: customers_staging    # Mappa la vista (o tabella) alla tabella customers_staging
   utilities:
-  - name: switch_table
-    namespace: pg_utilities
-    commands:
-      run_script:
-        executable: python
-        args: switch_table.py
+    - name: switch_table
+      namespace: pg_utilities
+      commands:
+        run_script:
+          executable: python
+          args: "switch_table.py customers_staging customers" # Swapping tra la tabella di staging e quella di produzione

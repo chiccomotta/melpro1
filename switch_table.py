@@ -2,12 +2,23 @@ import os
 import sys
 import psycopg2
 
+# Verifica parametri da linea di comando
+if len(sys.argv) != 3:
+    print(f"Uso: python {sys.argv[0]} <source_table> <target_table>")
+    sys.exit(1)
+
+source_table = sys.argv[1]
+target_table = sys.argv[2]
+
 # Variabili di ambiente già fornite dal processo Meltano
 db_host = os.environ["POSTGRES_HOST"]
 db_port = os.environ.get("POSTGRES_PORT", "5432")
 db_user = os.environ["POSTGRES_USER"]
 db_password = os.environ["TARGET_POSTGRES_PASSWORD"]
 db_name = os.environ["POSTGRES_DB"]
+
+conn = None
+cur = None
 
 try:
     # Connessione al DB
@@ -20,9 +31,6 @@ try:
     )
     conn.autocommit = False
     cur = conn.cursor()
-
-    source_table = "customers_staging"
-    target_table = "customers"
 
     print(f'Renaming table "{source_table}" to "{target_table}" safely...')
 
