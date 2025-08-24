@@ -6,7 +6,7 @@ import psycopg2
 db_host = os.environ["POSTGRES_HOST"]
 db_port = os.environ.get("POSTGRES_PORT", "5432")
 db_user = os.environ["POSTGRES_USER"]
-db_password = os.environ["POSTGRES_PASSWORD"]
+db_password = os.environ["TARGET_POSTGRES_PASSWORD"]
 db_name = os.environ["POSTGRES_DB"]
 
 try:

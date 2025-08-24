@@ -26,7 +26,6 @@ plugins:
         host: ${POSTGRES_HOST}
         port: ${POSTGRES_PORT}
         user: ${POSTGRES_USER}
-        password: ${POSTGRES_PASSWORD}
         database: ${POSTGRES_DB}
         default_target_schema: public  
         batch_size_rows: 10000          # Numero di righe per batch
