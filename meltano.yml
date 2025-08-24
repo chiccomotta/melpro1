@@ -15,9 +15,11 @@ plugins:
       port: ${MSSQL_PORT}
       user: ${MSSQL_USER}
       database: ${MSSQL_DB}
-      include_views: true
+      include_views: true      
+      catalog: {}                         # Forza rediscovery ogni volta
+      discover_mode: always               # Rediscovery ad ogni esecuzione
     select:
-    - dbo-VwCustomers.*                       # Inserire il nome della Tabella o della Vista da estrarre
+    - dbo-VwCust.*                        # Inserire il nome della Tabella o della Vista da estrarre
   loaders:
     - name: target-postgres
       variant: meltanolabs
@@ -30,7 +32,7 @@ plugins:
         default_target_schema: public  
         batch_size_rows: 30000          
         stream_maps:
-          "dbo-VwCustomers":
+          "dbo-VwCust":
             __alias__: customers_staging      # Mappa la vista (o tabella) alla tabella customers_staging
   utilities:
     - name: switch_table
