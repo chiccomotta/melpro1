@@ -27,9 +27,13 @@
   * `user`: `${MSSQL_USER}`
   * `database`: `${MSSQL_DB}`
   * `include_views`: true
+  * `catalog`: `{}` (forza rediscovery ad ogni esecuzione)
+  * `discover_mode`: `always` (rediscovery ad ogni esecuzione)
+  * `refresh_schema`: true (aggiorna lo schema ad ogni esecuzione)
+
 * **Selezione dati**:
 
-  * `dbo-VwCustomers.*`
+  * `dbo-VwCust.*`
 
 ### Loaders
 
@@ -44,16 +48,16 @@
   * `user`: `${POSTGRES_USER}`
   * `database`: `${POSTGRES_DB}`
   * `default_target_schema`: `public`
-  * `batch_size_rows`: 10000
+  * `batch_size_rows`: 30000
   * `stream_maps`:
 
-    * `dbo-VwCustomers`:
+    * `dbo-VwCust`:
 
       * `__alias__`: `customers_staging`
 
 ### Utilities
 
-#### switch\_table
+#### switch_table
 
 * **Namespace**: `pg_utilities`
 * **Comandi disponibili**:
@@ -61,27 +65,27 @@
   * `run_script`
 
     * **Eseguibile**: python
-    * **Argomenti**: `switch_table.py`
+    * **Argomenti**: `switch_table.py customers_staging customers`
 
 ## Workflow Logico
 
 1. **Extractor**:
 
-   * `tap-mssql` estrae le viste da SQL Server (`dbo-VwCustomers`).
+   * `tap-mssql` estrae i dati da SQL Server (vista `dbo-VwCust`).
 
 2. **Loader**:
 
    * `target-postgres` carica i dati estratti in PostgreSQL.
-   * `stream_maps` rinomina il flusso `dbo-VwCustomers` in `customers_staging`.
+   * `stream_maps` rinomina il flusso `dbo-VwCust` in `customers_staging`.
 
 3. **Utility `switch_table`**:
 
    * Esegue lo script Python `switch_table.py` tramite il comando `run_script`.
-   * Lo script gestisce eventuali swap di tabelle (ad esempio rinominare `customers_staging` in `customers` in modo sicuro).
+   * Lo script gestisce lo **swap** tra la tabella `customers_staging` e la tabella `customers` (produzione).
 
 ## Note
 
 * Tutte le credenziali e configurazioni sensibili sono gestite tramite variabili di ambiente (`MSSQL_*` e `POSTGRES_*`).
 * Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
-* Lanciare con il comando: `meltano run tap-mssql target-postgres switch_table:run_script`
+* Lanciare con il comando:  ```meltano run tap-mssql target-postgres switch_table:run_script```
