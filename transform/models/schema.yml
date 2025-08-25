@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: public
+    tables:
+      - name: customers_staging
+
+models:
+  - name: customers_transformed
+    description: "Tabella con colonna customer_name_upper"
