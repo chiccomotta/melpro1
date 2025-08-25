@@ -93,3 +93,7 @@
 * In caso di modifica della vista o della tabella aggiornare la cache di meltano con il comando:  ```meltano state clear --all``` 
   (potrebbe essere necessario anche cancellare il file .meltano/meltano.db ed aggiornare il file meltano.yml inserendo anche solo uno spazio o un commento)
 
+## Schedulazione (con log)
+
+* Impostare un CRON simile a questo (sostituire il path in cui è installato meltano, es. schedulato ogni 5 minuti):
+  ```/5 * * * * cd "/mnt/c/meltano projects/melpro1" && /usr/local/bin/meltano run tap-mssql target-postgres switch_table:run_script >> "/mnt/c/meltano projects/melpro1/meltano_cron.log" 2>&1```

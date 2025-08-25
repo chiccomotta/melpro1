@@ -2,7 +2,7 @@ import os
 import sys
 import psycopg2
 
-# Verifica parametri da linea di comando
+# Check command line arguments
 if len(sys.argv) != 3:
     print(f"Uso: python {sys.argv[0]} <source_table> <target_table>")
     sys.exit(1)
@@ -10,7 +10,7 @@ if len(sys.argv) != 3:
 source_table = sys.argv[1]
 target_table = sys.argv[2]
 
-# Variabili di ambiente già fornite dal processo Meltano
+# Read variables from environment
 db_host = os.environ["POSTGRES_HOST"]
 db_port = os.environ.get("POSTGRES_PORT", "5432")
 db_user = os.environ["POSTGRES_USER"]
@@ -21,7 +21,7 @@ conn = None
 cur = None
 
 try:
-    # Connessione al DB
+    # Conneection to PostgreSQL
     conn = psycopg2.connect(
         host=db_host,
         port=db_port,
@@ -29,12 +29,14 @@ try:
         password=db_password,
         dbname=db_name
     )
+
+    # Implicit transaction mode
     conn.autocommit = False
     cur = conn.cursor()
 
     print(f'Renaming table "{source_table}" to "{target_table}" safely...')
 
-    # SQL: elimina target_table se esiste, poi rinomina source_table
+    # SQL: drop target_table if it exists, then rename source_table
     sql = f"""
     DROP TABLE IF EXISTS public."{target_table}";
     ALTER TABLE public."{source_table}" RENAME TO "{target_table}";
