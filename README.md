@@ -9,7 +9,7 @@
 ## Ambienti Configurati
 
 * **dev**
-* **staging**
+* **test**
 * **prod**
 
 ## Plugin Configurati
@@ -86,7 +86,7 @@
 ## Note
 
 * Tutte le credenziali e configurazioni sensibili sono gestite tramite variabili di ambiente (`MSSQL_*` e `POSTGRES_*`).
-* Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
+* Il progetto supporta più ambienti (`dev`, `test`, `prod`) impostando il file .env specifico.
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
 * Lanciare con il comando:  ```meltano run tap-mssql target-postgres switch_table:run_script```
 * In caso di modifica della vista o della tabella aggiornare la cache di meltano con il comando:  ```meltano state clear --all``` 
