@@ -90,5 +90,5 @@
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
 * Lanciare con il comando:  ```meltano run tap-mssql target-postgres switch_table:run_script```
 * In caso di modifica della vista o della tabella aggiornare la cache di meltano con il comando:  ```meltano state clear --all``` 
-  (potrebbe essere necessario anche cancellare il file .meltano/meltano.db ed attendere qualche minuto)
+  (potrebbe essere necessario anche cancellare il file .meltano/meltano.db ed aggiornare il file meltano.yml inserendo anche solo uno spazio o un commento)
 
