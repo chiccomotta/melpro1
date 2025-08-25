@@ -81,7 +81,7 @@
 3. **Utility `switch_table`**:
 
    * Esegue lo script Python `switch_table.py` tramite il comando `run_script`.
-   * Lo script gestisce lo **swap** tra la tabella `customers_staging` e la tabella `customers` (produzione).
+   * Lo script gestisce lo **swap** tra la tabella `customers_staging` e la tabella `customers` in transazione.
 
 ## Note
 
@@ -89,3 +89,6 @@
 * Il progetto supporta più ambienti (`dev`, `staging`, `prod`) per consentire test e deployment sicuro.
 * Le pipeline possono essere estese aggiungendo ulteriori extractors, loaders o utilities.
 * Lanciare con il comando:  ```meltano run tap-mssql target-postgres switch_table:run_script```
+* In caso di modifica della vista o della tabella aggiornare la cache di meltano con il comando:  ```meltano state clear --all``` 
+  (potrebbe essere necessario anche cancellare il file .meltano/meltano.db ed attendere qualche minuto)
+
