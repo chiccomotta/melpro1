@@ -32,9 +32,10 @@ plugins:
         database: ${POSTGRES_DB}
         default_target_schema: public  
         batch_size_rows: 30000          
+        use_copy: true                    # Usa il comando COPY per caricare i dati  
         stream_maps:
           "dbo-VwCust":
-            __alias__: customers_staging      # Mappa la vista (o tabella) alla tabella customers_staging
+            __alias__: customers_staging  # Mappa la vista (o tabella) alla tabella customers_staging
   utilities:
     - name: switch_table
       namespace: pg_utilities

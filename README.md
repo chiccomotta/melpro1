@@ -49,6 +49,7 @@
   * `database`: `${POSTGRES_DB}`
   * `default_target_schema`: `public`
   * `batch_size_rows`: 30000
+  * `use_copy:`: true  
   * `stream_maps`:
 
     * `dbo-VwCust`:
