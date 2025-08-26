@@ -97,3 +97,20 @@
 
 * Impostare un CRON simile a questo (sostituire il path in cui è installato meltano, es. schedulato ogni 5 minuti):
   ```/5 * * * * cd "/mnt/c/meltano projects/melpro1" && /usr/local/bin/meltano run tap-mssql target-postgres switch_table:run_script >> "/mnt/c/meltano projects/melpro1/meltano_cron.log" 2>&1```
+
+## Docker Image
+
+Per creare l'immagine Docker del progetto Meltano, utilizziamo il Dockerfile presente nella cartella del progetto.
+
+### Build dell'immagine
+
+```bash
+docker build -t melpro1 .
+```
+
+## Esecuzione della Pipeline
+
+Per eseguire la pipeline `tap-mssql → target-postgres` utilizzando l'immagine Docker `melpro1`:
+
+```bash
+docker run --rm -it --env-file ./path/to/.env melpro1 run tap-mssql target-postgres switch_table:run_script
