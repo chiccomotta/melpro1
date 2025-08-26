@@ -38,8 +38,8 @@ try:
 
     # SQL: drop target_table if it exists, then rename source_table
     sql = f"""
-    DROP TABLE IF EXISTS public."{target_table}";
-    ALTER TABLE public."{source_table}" RENAME TO "{target_table}";
+    DROP TABLE IF EXISTS ohw_master."{target_table}";
+    ALTER TABLE ohw_master."{source_table}" RENAME TO "{target_table}";
     """
     cur.execute(sql)
 
