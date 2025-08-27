@@ -114,3 +114,18 @@ Per eseguire la pipeline `tap-mssql → target-postgres` utilizzando l'immagine 
 
 ```bash
 docker run --rm -it --env-file ./path/to/.env melpro1 run tap-mssql target-postgres switch_table:run_script
+```
+
+## Configurazione HOST dentro il container
+
+da dentro il container, per raggiungere i databases esterni è necessario impostare così l'HOST nel file .env:
+
+```bash
+# Microsoft SQL Server configuration
+MSSQL_HOST=host.docker.internal
+...
+
+# Postgres configuration
+POSTGRES_HOST=host.docker.internal
+...
+```
